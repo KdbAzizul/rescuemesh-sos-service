@@ -5,6 +5,8 @@ const { initializeDatabase } = require('./config/database');
 const { initializeRedis } = require('./config/redis');
 const { initializeMessageQueue } = require('./config/messageQueue');
 const { errorHandler } = require('./middleware/errorHandler');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const logger = require('./utils/logger');
 
 const app = express();
@@ -23,6 +25,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/health', require('./routes/health'));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/sos', require('./routes/sos'));
 
 // Error handling
